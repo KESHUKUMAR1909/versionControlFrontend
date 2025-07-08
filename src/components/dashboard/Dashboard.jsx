@@ -79,7 +79,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar className="navbar" />
+      <Navbar className="navbar"/>
       <div className='dashboard-container'>
         {/* Left: All Repos */}
         <div className='left-part'>
