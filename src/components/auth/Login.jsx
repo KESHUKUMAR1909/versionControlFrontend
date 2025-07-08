@@ -7,7 +7,7 @@ import { Box, Button } from "@primer/react";
 import "./auth.css";
 
 import logo from "../../assets/github-mark-white.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   // useEffect(() => {
@@ -20,28 +20,28 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { setCurrentUser } = useAuth();
-
+  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    console.log("Hello Login")
 
     try {
-      setLoading(true);
       const res = await axios.post("http://localhost:3000/login", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
       console.log(res);
 
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userId", res.data.userId);
+      localStorage.setItem("userId", res.data.user.id);
+      setCurrentUser(res.data.user.userId);
 
-      setCurrentUser(res.data.userId);
-      setLoading(false);
-
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err.response?.data || err.message);
       alert("Login Failed!");
+    } finally {
       setLoading(false);
     }
   };

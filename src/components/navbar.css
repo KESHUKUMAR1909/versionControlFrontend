@@ -1,0 +1,87 @@
+.top-navbar {
+  width: 100%;
+  height: 55px;
+  background-color: #f6f8fa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.github-logo {
+  font-size: 24px;
+  color: #24292f;
+}
+
+.dashboard-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #24292f;
+}
+
+.search-section {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 4px 8px;
+  width: 300px;
+}
+
+.search-section input {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  padding-left: 8px;
+  font-size: 14px;
+}
+
+.search-icon {
+  color: #57606a;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  border: 1px solid #d0d7de;
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn:hover {
+  background-color: #eaecef;
+}
+
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #d0d7de;
+}
+
+.divider {
+  height: 24px;
+  width: 1px;
+  background-color: #d0d7de;
+}
