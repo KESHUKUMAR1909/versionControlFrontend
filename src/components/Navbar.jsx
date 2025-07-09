@@ -2,13 +2,13 @@ import React from 'react';
 import './Navbar.css';
 import { FaGithub, FaBars, FaSearch, FaUserFriends, FaPlus, FaRecordVinyl, FaCodeBranch, FaFolderOpen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-const Navbar = () => {
+const Navbar = ({name}) => {
   return (
     <nav className="top-navbar">
       <div className="left-section">
         <button className="icon-btn"><FaBars /></button>
         <FaGithub className="github-logo" />
-        <span className="dashboard-title">Dashboard</span>
+        <span className="dashboard-title">{name}</span>
       </div>
 
       <div className="search-section">
