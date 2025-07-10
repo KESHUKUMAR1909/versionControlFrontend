@@ -99,3 +99,28 @@
 .logout-btn:hover {
     background-color: #d9363e;
 }
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.upload-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 16px;
+    padding: 4px 6px;
+    cursor: pointer;
+}
+
+.profile-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}

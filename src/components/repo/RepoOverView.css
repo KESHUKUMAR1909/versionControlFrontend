@@ -1,0 +1,161 @@
+.repo-overview-container {
+  background-color: white;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.repo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.repo-header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.visibility-tag {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.public {
+  background-color: #e1e4e8;
+  color: #24292e;
+}
+
+.private {
+  background-color: #fdd;
+  color: #b00;
+}
+
+.btn-code {
+  margin-left: auto;
+  background-color: #2ea44f;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-code:hover {
+  background-color: #22863a;
+}
+
+.repo-meta {
+  margin: 15px 0;
+  font-size: 14px;
+  color: #586069;
+  display: flex;
+  gap: 20px;
+}
+
+.file-list {
+  margin-top: 10px;
+  border-top: 1px solid #e1e4e8;
+}
+
+.file-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e1e4e8;
+  font-size: 14px;
+}
+
+.file-name {
+  color: #24292e;
+  flex: 1;
+}
+
+.file-message {
+  flex: 2;
+  color: #0366d6;
+  margin-left: 20px;
+}
+
+.file-time {
+  color: #586069;
+  white-space: nowrap;
+}
+
+.readme-section {
+  margin-top: 40px;
+  border-top: 1px solid #e1e4e8;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.readme-section h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.readme-empty {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.file-preview {
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  max-height: 500px;
+  overflow: auto;
+}
+.file-code {
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 14px;
+  color: #333;
+}
+.commit-dropdown {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  transition: border 0.2s ease, background-color 0.2s ease;
+}
+
+.commit-dropdown:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+}
+
+.commit-dropdown:focus {
+  border-color: #007bff;
+  background-color: #fff;
+}
+.delete-repo-btn {
+  margin-left: 20px;
+  padding: 6px 12px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.delete-repo-btn:hover {
+  background-color: #c0392b;
+}

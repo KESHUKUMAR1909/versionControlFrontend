@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Profile() {
   const [userData, setUserData] = useState(null);
   const [repos, setRepos] = useState([]);
+  const [localImage, setLocalImage] = useState(localStorage.getItem('profileImage') || '');
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
 
@@ -39,7 +40,20 @@ export default function Profile() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    navigate('/login'); // redirect to login page
+    navigate('/login');
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64Image = reader.result;
+      localStorage.setItem('profileImage', base64Image);
+      setLocalImage(base64Image);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -48,11 +62,22 @@ export default function Profile() {
       <div className="bottom-part">
         {/* Left Profile Info */}
         <div className="left-part">
-          <img
-            src={userData?.profileImage || 'https://via.placeholder.com/150'}
-            alt="Profile"
-            className="profile-image"
-          />
+          <div className="image-wrapper">
+            <img
+              src={localImage || userData?.profileImage || 'https://via.placeholder.com/150'}
+              alt="Profile"
+              className="profile-image"
+            />
+            <label htmlFor="image-upload" className="upload-icon">🖼️</label>
+            <input
+              type="file"
+              id="image-upload"
+              accept="image/*"
+              onChange={handleImageUpload}
+              style={{ display: 'none' }}
+            />
+          </div>
+
           <p>{userData?.username || 'Loading...'}</p>
 
           {/* Profile Actions */}

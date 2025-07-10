@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './NewRepo.css';
 import Navbar from '../Navbar';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const NewRepository = () => {
     const [userData, setUserData] = useState(null);
@@ -13,7 +14,7 @@ const NewRepository = () => {
         isPrivate: false,
         initializeRepo: false
     });
-
+    const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
 
     // Fetch user profile
@@ -87,6 +88,7 @@ const NewRepository = () => {
                 isPrivate: false,
                 initializeRepo: false
             });
+            navigate('/');
         } catch (err) {
             console.error('Error creating repository:', err);
         }

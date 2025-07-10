@@ -1,76 +1,77 @@
 import React, { useState, useEffect } from "react";
-import HeatMap from '@uiw/react-heat-map';
+import HeatMap from "@uiw/react-heat-map";
+import axios from "axios";
 
-const generateActiviyData = (startDate, endDate) => {
-    const data = [];
-    let currentDate = new Date(startDate);
-    const end = new Date(endDate);
-
-    while (currentDate <= end) {
-        const count = Math.floor(Math.random() * 50);
-        data.push({
-            date: currentDate.toISOString().split('T')[0],
-            count: count,
-        });
-        currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return data;
+// GitHub-like color levels (can be customized)
+const panelColors = {
+  0: "#ebedf0",     // light gray for 0 commits
+  1: "#c6e48b",     // light green
+  2: "#7bc96f",     // medium green
+  3: "#239a3b",     // dark green
+  4: "#196127",     // darkest green
 };
 
-const getPanelColors = (maxCount) => {
-    const colors = {
-        0: 'grey'  // ✅ set 0 as white from start
-    };
-
-    for (let i = 1; i <= maxCount; i++) {
-        const greenValue = Math.floor((i / maxCount) * 255);
-        colors[i] = `rgb(0, ${greenValue}, 0)`;
-    }
-
-    return colors;
+// Helper to map commit counts to color levels (1-4)
+const normalizeCount = (count) => {
+  if (count === 0) return 0;
+  if (count <= 1) return 1;
+  if (count <= 3) return 2;
+  if (count <= 6) return 3;
+  return 4;
 };
-
 
 const HeatMapProfile = () => {
-    const [activityData, setActivityData] = useState([]);
-    const [panelColors, setPanelColors] = useState({});
+  const [activityData, setActivityData] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const startDate = '2001-01-01';
-            const endDate = '2001-01-31';
-            const data = await generateActiviyData(startDate, endDate);
-            setActivityData(data);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/daily-commits");
+        console.log("📦 Raw response:", response.data);
 
-            const maxCount = Math.max(...data.map((d) => d.count));
-            setPanelColors(getPanelColors(maxCount));
-        };
+        if (!Array.isArray(response.data)) {
+          throw new Error("Invalid response format. Expected an array.");
+        }
 
-        fetchData();
-    }, []);
+        // Normalize commit counts to color scale (0–4)
+        const normalizedData = response.data.map((entry) => ({
+          date: entry.date,
+          count: normalizeCount(entry.count),
+        }));
 
-    return (
-        <div>
-            <h4>Recent Contributions</h4>
-            <HeatMap
-                className="HeatMapProfile"
-                style={{
-                    display: "block",
-                    width: "90%",
-                    color: "black",
-                    padding: "10px",
-                    border: "1px solid black", // ✅ Add this line
-                }}
-                value={activityData}
-                weekLabels={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
-                startDate={new Date('2001-01-01')}
-                rectSize={15}
-                space={2}
-                rectProps={{ rx: 2 }}
-                panelColors={panelColors}
-            />
-        </div>
-    );
+        console.log("🎯 Normalized Heatmap Data:", normalizedData);
+        setActivityData(normalizedData);
+      } catch (error) {
+        console.error("❌ Error fetching commit activity:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h4 style={{ marginBottom: "10px" }}>Recent Contributions</h4>
+      <HeatMap
+        className="HeatMapProfile"
+        style={{
+          display: "block",
+          width: "90%",
+          color: "black",
+          padding: "10px",
+          border: "1px solid black",
+        }}
+        value={activityData}
+        startDate={new Date("2025-01-01")}
+        endDate={new Date()} // Optional, defaults to today
+        weekLabels={["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]}
+        rectSize={15}
+        space={2}
+        rectProps={{ rx: 2 }}
+        panelColors={panelColors}
+      />
+    </div>
+  );
 };
 
 export default HeatMapProfile;

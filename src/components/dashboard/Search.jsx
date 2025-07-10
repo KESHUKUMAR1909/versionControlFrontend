@@ -1,11 +1,12 @@
 import React from 'react';
 import './Search.css';
+
 const Search = ({ title, handleClick, btnTitle = "Find", value, setValue }) => {
   return (
     <div className='search-component'>
       <div className="top-part">
         {title && <h2>{title}</h2>}
-        {btnTitle && <button>{btnTitle}</button>}
+        {btnTitle && <button onClick={handleClick}>{btnTitle}</button>} {/* Fixed */}
       </div>
       <div className="search">
         <input

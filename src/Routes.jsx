@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
-import { useNavigate, useRoutes } from 'react-router-dom'
+import { useNavigate, useRoutes } from 'react-router-dom';
 
 // Pages List
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user/Profile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
+import NewRepository from "./components/repo/NewRepository";
+import RepoOverview from "./components/repo/RepoOverview"; // ✅ Added
 
 // Auth Context
 import { useAuth } from "./authContext";
-import NewRepository from "./components/repo/NewRepository";
+import NotFound from "./NotFound";
 
 const ProjectRoutes = () => {
     const { currentUser, setCurrentUser } = useAuth();
@@ -26,36 +28,23 @@ const ProjectRoutes = () => {
             navigate("/auth");
         }
 
-        if (userIdFromStorage && window.location.pathname == '/auth') {
+        if (userIdFromStorage && window.location.pathname === '/auth') {
             navigate("/");
         }
     }, [currentUser, navigate, setCurrentUser]);
 
     let element = useRoutes([
-        {
-            path: "/",
-            element: <Dashboard />
-        },
-        {
-            path: "/auth",
-            element: <Login />
-        },
-        {
-            path: "/signup",
-            element: <Signup />
-        },
-        {
-            path: "/profile",
-            element: <Profile />
-        },
-        {
-            path: "/new",
-            element: <NewRepository />
+        { path: "/", element: <Dashboard /> },
+        { path: "/auth", element: <Login /> },
+        { path: "/signup", element: <Signup /> },
+        { path: "/profile", element: <Profile /> },
+        { path: "/new", element: <NewRepository /> },
+        { path: "/repo/:id/*", element: <RepoOverview /> }, 
+        {path:"*" , element:<NotFound />} // ✅ Wildcard
 
-        }
     ]);
 
     return element;
-}
+};
 
 export default ProjectRoutes;

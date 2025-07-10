@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Search from './Search.jsx';
 import './dashboard.css';
-import Navbar from '../Navbar.jsx'
+import Navbar from '../Navbar.jsx';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [AvailRepos, setAvailRepos] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   const jobOpenings = [
     {
       title: "Frontend Developer",
@@ -32,67 +38,75 @@ const Dashboard = () => {
     }
   ];
 
-
+  // ✅ Automatically fetch on first render
   useEffect(() => {
-    const fetchAvailRepos = async () => {
+    const fetchRepos = async () => {
       const storedUserId = localStorage.getItem('userId');
       if (!storedUserId) {
-        console.error('No userId in localStorage');
+        setError("User ID not found");
         return;
       }
 
       try {
+        setLoading(true);
         const result = await axios.get(`http://localhost:3000/repo/user/${storedUserId}`);
         setAvailRepos(result.data.repositories);
-        setSearchResults(result.data.repositories); // Also initialize search view
-      } catch (error) {
-        console.error('Error fetching repositories:', error);
+        setSearchResults(result.data.repositories);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching repositories:', err);
+        setError("Failed to load repositories");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchAvailRepos();
+    fetchRepos();
   }, []);
-  useEffect(() => {
+
+  const getSearchResults = async () => {
     if (searchQuery.trim() === "") {
       setSearchResults(AvailRepos);
+      return;
     }
-  }, [searchQuery, AvailRepos]);
-  const getSearchResults = async () => {
-    try {
-      // If search is empty, show all available repos
-      if (searchQuery.trim() === "") {
-        setSearchResults(AvailRepos);
-        return;
-      }
 
+    try {
+      setLoading(true);
       const res = await axios.get(`http://localhost:3000/repo/name/${searchQuery}`);
-      if (!res.data.repository || res.data.repository.length === 0) {
+      if (!res.data.repository) {
         setSearchResults([]);
       } else {
-        setSearchResults(res.data.repository);
+        setSearchResults([res.data.repository]); // Ensure it's an array
       }
+      setError(null);
     } catch (err) {
       console.error('Search error:', err);
       setSearchResults([]);
+      setError("Search failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <Navbar className="navbar" name={"Dashboard"}/>
-      <div className='dashboard-container'>
-        {/* Left: All Repos */}
-        <div className='left-part'>
+      <Navbar className="navbar" name="Dashboard" />
+      <div className="dashboard-container">
+
+        {/* Left: Repositories */}
+        <div className="left-part">
           <Search
-            title={"Top Repositories"}
-            btnTitle='New'
-            handleClick={() => console.log("Hello Keshu")}
+            title="Top Repositories"
+            btnTitle="New"
+            handleClick={() => navigate("/new")}
             value={""}
             setValue={setSearchQuery}
           />
-          {AvailRepos.length > 0 ? (
+          {loading ? (
+            <p>Loading...</p>
+          ) : AvailRepos.length > 0 ? (
             AvailRepos.map((repo, index) => (
-              <p className='list' key={index}>{repo.name}</p>
+              <p className="list" key={index}>{repo.name}</p>
             ))
           ) : (
             <p>No repositories found.</p>
@@ -100,22 +114,29 @@ const Dashboard = () => {
         </div>
 
         {/* Center: Search Results */}
-        <div className='center-part'>
+        <div className="center-part">
           <Search
-            title={"Search Repositories"}
+            title="Search Repositories"
             btnTitle="Search"
             handleClick={getSearchResults}
             value={searchQuery}
             setValue={setSearchQuery}
           />
+
+          {error && <p className="error">{error}</p>}
+
           <div className="search-results-container">
-            {searchResults.length > 0 ? (
+            {loading ? (
+              <p>Loading...</p>
+            ) : searchResults.length > 0 ? (
               searchResults.map((repo) => (
-                <div className="repo-card" key={repo._id}>
-                  <h3 className="repo-name">{repo.name}</h3>
-                  <p className="repo-description">{repo.description || "No description provided."}</p>
-                  <p className="repo-owner">Owner: {repo.owner?.username || "Unknown"}</p>
-                </div>
+                <Link to={`/repo/${repo._id}`} key={repo._id} className="repo-card-link">
+                  <div className="repo-card">
+                    <h3 className="repo-name">{repo.name}</h3>
+                    <p className="repo-description">{repo.description || "No description provided."}</p>
+                    <p className="repo-owner">Owner: {repo.owner?.username || "Unknown"}</p>
+                  </div>
+                </Link>
               ))
             ) : (
               <p>No matching repositories found.</p>
@@ -123,8 +144,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Right Part */}
-        <div className='right-part'>
+        {/* Right Part: Job Openings */}
+        <div className="right-part">
           <h3 style={{ marginBottom: "10px" }}>Job Openings</h3>
           <div className="openings-container">
             {jobOpenings.map((job, index) => (
@@ -141,7 +162,6 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-
       </div>
     </>
   );
