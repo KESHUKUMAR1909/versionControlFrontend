@@ -3,7 +3,7 @@ import './NewRepo.css';
 import Navbar from '../Navbar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+const API_URL = import.meta.env.VITE_API_URL;
 const NewRepository = () => {
     const [userData, setUserData] = useState(null);
 
@@ -23,7 +23,7 @@ const NewRepository = () => {
 
         const fetchUserData = async () => {
             try {
-                const res = await axios.get(`http://localhost:3000/userProfile/${userId}`);
+                const res = await axios.get(`${API_URL}/userProfile/${userId}`);
                 setUserData(res.data);
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -76,7 +76,7 @@ const NewRepository = () => {
                 owner: userId
             };
 
-            const res = await axios.post('http://localhost:3000/repo/create', payload);
+            const res = await axios.post(`${API_URL}/repo/create`, payload);
             console.log('Repository created:', res.data);
             alert('Repository created successfully!');
 

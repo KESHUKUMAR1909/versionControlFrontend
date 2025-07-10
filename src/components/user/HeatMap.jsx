@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import HeatMap from "@uiw/react-heat-map";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 // GitHub-like color levels (can be customized)
 const panelColors = {
   0: "#ebedf0",     // light gray for 0 commits
@@ -26,7 +26,7 @@ const HeatMapProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/daily-commits");
+        const response = await axios.get(`${API_URL}/daily-commits`);
         console.log("📦 Raw response:", response.data);
 
         if (!Array.isArray(response.data)) {

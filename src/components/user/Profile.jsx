@@ -4,6 +4,7 @@ import HeatMap from './HeatMap.jsx';
 import './Profile.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
   const [userData, setUserData] = useState(null);
@@ -17,7 +18,7 @@ export default function Profile() {
 
     const fetchUserData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/userProfile/${userId}`);
+        const res = await axios.get(`${API_URL}/userProfile/${userId}`);
         setUserData(res.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -26,7 +27,7 @@ export default function Profile() {
 
     const fetchRepos = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/repo/user/${userId}`);
+        const res = await axios.get(`${API_URL}/repo/user/${userId}`);
         setRepos(res.data.repositories || []);
       } catch (error) {
         console.error('Error fetching repositories:', error);

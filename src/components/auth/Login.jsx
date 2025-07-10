@@ -5,10 +5,12 @@ import { useAuth } from "../../authContext.jsx";
 import { PageHeader } from "@primer/react";
 import { Box, Button } from "@primer/react";
 import "./auth.css";
-
+const API_URL = import.meta.env.VITE_API_URL;
 import logo from "../../assets/github-mark-white.svg";
 import { Link, useNavigate } from "react-router-dom";
-
+if(!API_URL){
+  API_URL="http://localhost:3000";
+}
 const Login = () => {
   // useEffect(() => {
   //   localStorage.removeItem("token");
@@ -27,7 +29,7 @@ const Login = () => {
     console.log("Hello Login")
 
     try {
-      const res = await axios.post("http://localhost:3000/login", {
+      const res = await axios.post(`${API_URL}/login`, {
         email,
         password,
       });

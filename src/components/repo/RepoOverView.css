@@ -159,3 +159,29 @@
 .delete-repo-btn:hover {
   background-color: #c0392b;
 }
+.cli-help-section {
+  background-color: #f4f4f4;
+  padding: 20px;
+  margin-top: 40px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.cli-help-section h2 {
+  margin-bottom: 10px;
+}
+
+.cli-help-section code {
+  background: #eaeaea;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.cli-help-section ul {
+  padding-left: 20px;
+}
+
+.cli-help-section li {
+  margin: 5px 0;
+}

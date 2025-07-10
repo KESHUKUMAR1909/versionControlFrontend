@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../authContext";
-
+const API_URL = import.meta.env.VITE_API_URL;
 import { PageHeader } from "@primer/react";
 import { Box, Button } from "@primer/react";
 import "./auth.css";
@@ -22,7 +22,7 @@ const Signup = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3000/signup", {
+      const res = await axios.post(`${API_URL}/signup`, {
         email: email,
         password: password,
         username: username,

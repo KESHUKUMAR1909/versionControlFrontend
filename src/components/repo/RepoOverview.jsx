@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Navbar';
 import './RepoOverview.css';
-
+const API_URL = import.meta.env.VITE_API_URL;
 const RepoOverview = () => {
   const { id } = useParams(); // repoId
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const RepoOverview = () => {
   useEffect(() => {
     const fetchRepo = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/repo/${id}`);
+        const res = await axios.get(`${API_URL}/repo/${id}`);
         setRepo(res.data.repository);
       } catch (err) {
         console.error("Error fetching repo:", err);
@@ -33,7 +33,7 @@ const RepoOverview = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/repo/${id}/commits`);
+        const res = await axios.get(`${API_URL}/repo/${id}/commits`);
         const commits = res.data.commits;
         if (!commits.length) return;
 
@@ -46,7 +46,7 @@ const RepoOverview = () => {
         setCurrentPath(path);
 
         const encodedPath = encodeURIComponent(path.replace(/^\/+/, ''));
-        const url = `http://localhost:3000/repo/${id}/commit/${selectedCommit}/file/${encodedPath}`;
+        const url = `${API_URL}/repo/${id}/commit/${selectedCommit}/file/${encodedPath}`;
 
         const fileRes = await axios.get(url);
         if (fileRes.data.type === 'file') {
@@ -71,7 +71,7 @@ const RepoOverview = () => {
 
     if (item.type === 'file') {
       try {
-        const url = `http://localhost:3000/repo/${id}/commit/${commitId}/details/${encodeURIComponent(newPath.replace(/^\/+/, ''))}`;
+        const url = `${API_URL}/repo/${id}/commit/${commitId}/details/${encodeURIComponent(newPath.replace(/^\/+/, ''))}`;
         const res = await axios.get(url);
 
         setFileContent({
@@ -103,7 +103,7 @@ const RepoOverview = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:3000/repo/delete/${id}`);
+      await axios.delete(`${API_URL}/repo/delete/${id}`);
       alert("Repository deleted successfully!");
       navigate('/'); // redirect after deletion
     } catch (err) {
@@ -170,6 +170,21 @@ const RepoOverview = () => {
             )}
           </div>
         )}
+        <div className="cli-help-section">
+          <h2>🧪 How to Use KeshuGit CLI</h2>
+          <p>Open your terminal inside the project folder and run:</p>
+          <pre className="cli-command">keshugit connect {repo?._id}</pre>
+          <p>Then use any of these commands:</p>
+          <ul>
+            <li><code>keshugit init</code> – Initialize a new repository</li>
+            <li><code>keshugit add &lt;filename&gt;</code> – Stage a file</li>
+            <li><code>keshugit commit "your message"</code> – Commit staged files</li>
+            <li><code>keshugit push</code> – Upload commits to remote</li>
+            <li><code>keshugit pull</code> – Sync from remote</li>
+            <li><code>keshugit revert &lt;commitID&gt;</code> – Revert to a commit</li>
+          </ul>
+          <p>📦 <strong>CLI globally available after:</strong> <code>npm install -g keshugit</code></p>
+        </div>
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import Search from './Search.jsx';
 import './dashboard.css';
 import Navbar from '../Navbar.jsx';
 import { Link, useNavigate } from 'react-router-dom';
-
+const API_URL = import.meta.env.VITE_API_URL;
 const Dashboard = () => {
   const [AvailRepos, setAvailRepos] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -49,7 +49,7 @@ const Dashboard = () => {
 
       try {
         setLoading(true);
-        const result = await axios.get(`http://localhost:3000/repo/user/${storedUserId}`);
+        const result = await axios.get(`${API_URL}/repo/user/${storedUserId}`);
         setAvailRepos(result.data.repositories);
         setSearchResults(result.data.repositories);
         setError(null);
@@ -72,7 +72,7 @@ const Dashboard = () => {
 
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:3000/repo/name/${searchQuery}`);
+      const res = await axios.get(`${API_URL}/repo/name/${searchQuery}`);
       if (!res.data.repository) {
         setSearchResults([]);
       } else {
