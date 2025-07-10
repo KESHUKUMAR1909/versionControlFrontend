@@ -8,9 +8,6 @@ import "./auth.css";
 const API_URL = import.meta.env.VITE_API_URL;
 import logo from "../../assets/github-mark-white.svg";
 import { Link, useNavigate } from "react-router-dom";
-if(!API_URL){
-  API_URL="http://localhost:3000";
-}
 const Login = () => {
   // useEffect(() => {
   //   localStorage.removeItem("token");

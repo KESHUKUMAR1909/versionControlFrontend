@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Navbar';
-import './RepoOverview.css';
+import './RepoOverView.css';
 const API_URL = import.meta.env.VITE_API_URL;
 const RepoOverview = () => {
   const { id } = useParams(); // repoId
