@@ -177,6 +177,7 @@ const RepoOverview = () => {
           <p>Then use any of these commands:</p>
           <ul>
             <li><code>keshugit init</code> – Initialize a new repository</li>
+            <li><code>keshugit connect &lt;RepoId&gt;</code> – Connect to a KeshuGit</li>
             <li><code>keshugit add &lt;filename&gt;</code> – Stage a file</li>
             <li><code>keshugit commit "your message"</code> – Commit staged files</li>
             <li><code>keshugit push</code> – Upload commits to remote</li>
