@@ -1,5 +1,5 @@
 import React from 'react';
-import './Navbar.css';
+import './Navbar.css'; 
 import { FaGithub, FaBars, FaSearch, FaUserFriends, FaPlus, FaRecordVinyl, FaCodeBranch, FaFolderOpen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 const Navbar = ({name}) => {

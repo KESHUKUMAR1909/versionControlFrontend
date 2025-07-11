@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar.jsx';
 import HeatMap from './HeatMap.jsx';
-import './Profile.css';
+import './Profile.css'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const API_URL = import.meta.env.VITE_API_URL;
