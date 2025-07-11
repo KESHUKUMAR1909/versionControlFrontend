@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './NewrRepo.css' ;
+import './NewRepo.css' ;
 import Navbar from '../Navbar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
